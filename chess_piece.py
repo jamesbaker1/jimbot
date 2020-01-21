@@ -238,8 +238,28 @@ class Knight(ChessPiece):
         ChessPiece.__init__(self, color, current_position, board)
         self.type = ("Knight", "K")
 
+    def attacked_squares(self):
+        # Manually exhaust all possibilities
+        attacked_squares = [
+        (self.current_position[0] - 2, self.current_position[1] + 1),
+        (self.current_position[0] - 1, self.current_position[1] + 2),
+        (self.current_position[0] + 1, self.current_position[1] + 2),
+        (self.current_position[0] + 2, self.current_position[1] + 1),
+        (self.current_position[0] + 1, self.current_position[1] - 2),
+        (self.current_position[0] + 2, self.current_position[1] - 1),
+        (self.current_position[0] - 2, self.current_position[1] - 1),
+        (self.current_position[0] - 1, self.current_position[1] - 2)
+        ]
+
+        return list(filter(self.valid_square, attacked_squares))
+
+
     def move(self, location):
         pass
+
+    def valid_square(self, coordinate):
+        return (coordinate[0] >= 0 and coordinate[0] <= 7) and (coordinate[1] >= 0 and coordinate[1] <= 7)
+
 
 class EmptySquare(ChessPiece):
     def __init__(self, color, current_position, board):
@@ -333,20 +353,39 @@ new_chess_game.board = [
 #
 # lone_bishop.attacked_squares()
 # Queen Test
+# rook_test = ChessGame()
+# empty_space = EmptySquare(0,[0,0], rook_test)
+# lone_queen = Queen(0, [3,3], rook_test)
+# rook_test.board = [
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, lone_queen, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+#     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space]
+# ]
+#
+# lone_queen.board = rook_test.board
+#
+# print(lone_queen.attacked_squares())
+
+# Knight Test
 rook_test = ChessGame()
 empty_space = EmptySquare(0,[0,0], rook_test)
-lone_queen = Queen(0, [3,3], rook_test)
+lone_knight = Knight(0, [7,1], rook_test)
 rook_test.board = [
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
-    [empty_space, empty_space, empty_space, lone_queen, empty_space, empty_space, empty_space, empty_space],
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
     [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
-    [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space]
+    [empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space],
+    [empty_space, lone_knight, empty_space, empty_space, empty_space, empty_space, empty_space, empty_space]
 ]
 
-lone_queen.board = rook_test.board
+lone_knight.board = rook_test.board
 
-print(lone_queen.attacked_squares())
+print(lone_knight.attacked_squares())
